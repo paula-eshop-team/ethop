@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- 二期 start, 默认的扫描不扫了, 只扫描include-filter中指定规则的类 -->
+	<!-- <context:component-scan base-package="com.eshop.controller" annotation-config="true"/> -->
+    <context:component-scan base-package="com.eshop.controller" annotation-config="true" use-default-filters="false">
+    	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    <!-- 二期 end -->
+    </context:component-scan>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+        	<!-- 字符转换为utf-8 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/plain;charset=UTF-8</value>
+                        <value>text/html;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+            <!-- json序列化和反序列化转化 -->
+            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+
+
+    <!-- 文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<!-- 文件上传的最大size,单位是字节 10485760/1024/1024=10M -->
+        <property name="maxUploadSize" value="10485760"/> <!-- 10m -->
+        <!-- 在内存中最大的size,上传文件时分配的内存块的大小为4096字节 -->
+        <property name="maxInMemorySize" value="4096" />
+        <property name="defaultEncoding" value="UTF-8"></property>
+    </bean>
+
+    <mvc:interceptors>
+        <!-- 定义在这里的，所有的都会拦截-->
+        <mvc:interceptor>
+            <!--manage/a.do  /manage/*-->
+            <!--manage/b.do  /manage/*-->
+            <!--manage/product/save.do /manage/**-->
+            <!--manage/order/detail.do /manage/**-->
+            <mvc:mapping path="/manage/**"/>
+            <!--<mvc:exclude-mapping path="/manage/user/login.do"/>-->
+            <bean class="com.eshop.common.interceptor.AuthorityInterceptor" />
+        </mvc:interceptor>
+
+    </mvc:interceptors>
+
+</beans>

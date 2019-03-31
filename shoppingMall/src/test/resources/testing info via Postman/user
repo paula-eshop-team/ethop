@@ -1,0 +1,38 @@
+login.do
+curl -i -X POST \
+   -H "Content-Type:application/x-www-form-urlencoded" \
+   -d "username=admin" \
+   -d "password=admin111" \
+ 'http://www.suppermmall.com:8081/eshop/user/login.do'
+ 
+ logout.do
+ curl -i -X POST \
+   -H "Content-Type:application/x-www-form-urlencoded" \
+ 'http://www.suppermmall.com:8081/mmall002/user/logout.do'
+ 
+ get_user_info.do
+ curl -i -X POST \
+   -H "Content-Type:application/x-www-form-urlencoded" \
+ 'http://www.suppermmall.com:8081/eshop/user/get_user_info.do'
+ 
+ forget_get_question.do
+ curl -i -X POST \
+   -H "Content-Type:application/x-www-form-urlencoded" \
+   -d "username=admin" \
+ 'http://localhost:8081/mmall/user/forget_get_question.do'
+ 
+ forget_check_answer.do
+ curl -i -X POST \
+   -H "Content-Type:application/x-www-form-urlencoded" \
+   -d "username=admin" \
+   -d "question=这是一个问题" \
+   -d "answer=答案" \
+ 'http://www.suppermmall.com:8081/eshop/user/forget_check_answer.do'
+ 
+ forget_reset_password.do
+ curl -i -X POST \
+   -H "Content-Type:application/x-www-form-urlencoded" \
+   -d "username=admin" \
+   -d "passwordNew=admin111" \
+   -d "forgetToken=d43ab1f1-0acb-4d1a-9a12-6b55a1c2b549" \
+ 'http://www.suppermmall.com:8081/eshop/user/forget_reset_password.do'

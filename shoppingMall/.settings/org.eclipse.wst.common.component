@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="eshop">
+        <wb-resource deploy-path="/WEB-INF/web.xml" source-path="/WebRoot/WEB-INF/web.xml"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/lib" source-path="/WebRoot/WEB-INF/lib"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources.beta"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources.dev"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resource.prod"/>
+        <wb-resource deploy-path="/WEB-INF/" source-path="/WebRoot/WEB-INF"/>
+        <wb-resource deploy-path="/" source-path="/WebRoot"/>
+        <property name="java-output-path" value="/eshop/target/classes"/>
+        <property name="context-root" value="eshop"/>
+    </wb-module>
+</project-modules>
