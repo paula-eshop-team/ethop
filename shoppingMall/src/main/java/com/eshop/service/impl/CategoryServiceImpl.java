@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements ICategoryService {
         Category category = new Category();
         category.setName(categoryName);
         category.setParentId(parentId);
-        category.setStatus(true);//这个分类是可用的
+        category.setStatus(true);
 
         int rowCount = categoryMapper.insertCategory(category);
         if(rowCount > 0){
@@ -96,11 +96,7 @@ public class CategoryServiceImpl implements ICategoryService {
      */
     public ServerResponse<List<Integer>> selectCategoryAndChildrenById(Integer categoryId){
         Set<Category> categorySet = Sets.newHashSet();
-        
-        //将该节点及其所有子节点(包括子节点的子节点保存到categorySet)
         findChildCategory(categorySet,categoryId);
-
-
         List<Integer> categoryIdList = Lists.newArrayList();
         if(categoryId != null){
             for(Category categoryItem : categorySet){
@@ -116,13 +112,11 @@ public class CategoryServiceImpl implements ICategoryService {
      * @param categoryId
      * @return
      */
-    //递归算法,算出子节点
     private Set<Category> findChildCategory(Set<Category> categorySet ,Integer categoryId){
         Category category = categoryMapper.selectCategoryByPrimaryKey(categoryId);
         if(category != null){
             categorySet.add(category);
         }
-        //查找子节点,递归算法一定要有一个退出的条件
         List<Category> categoryList = categoryMapper.selectCategoryChildrensByParentId(categoryId);
         for(Category categoryItem : categoryList){
             findChildCategory(categorySet,categoryItem.getId());
@@ -134,10 +128,4 @@ public class CategoryServiceImpl implements ICategoryService {
 	public List<Category> findCategoryListInfo() {
 		return categoryMapper.findCategoryListInfo();
 	}
-
-
-
-
-
-
 }

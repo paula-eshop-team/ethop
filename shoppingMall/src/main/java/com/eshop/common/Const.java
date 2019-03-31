@@ -17,14 +17,12 @@ public class Const {
 	public static final String TOKEN_PREFIX = "token_resetPassword";
 	
 	public interface RedisCacheExtime{
-		int REDIS_SESSION_EXTIME = 60 * 30; //30分钟
+		int REDIS_SESSION_EXTIME = 60 * 30;
 	}
 	
-	//定义普通用户和管理员的关系
-	//因为普通用户和管理员是一个组,通过内部接口类来将常量进行分组,这样做没有枚举那么重,但也启到分组的作用,而且里面还是常量
 	public interface Role {
-		int ROLE_CUSTOMER = 0;//普通用户
-		int ROLE_ADMIN = 1;//管理员
+		int ROLE_CUSTOMER = 0;
+		int ROLE_ADMIN = 1;
 	}
 	
 	public interface  ErrorMessage{
@@ -34,14 +32,13 @@ public class Const {
 		String UPLOAD_FILE_SUCCESS = "Succeed to upload file!";
     }
 	
-	//Product搜索中, 排序规则定义, price是orderBy的字段, desc和asc是降序和升序
 	public interface ProductListOrderBy{
         Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc","price_asc");
     }
 
     public interface Cart{
-        int CHECKED = 1;//即购物车选中状态
-        int UN_CHECKED = 0;//购物车中未选中状态
+        int CHECKED = 1;
+        int UN_CHECKED = 0;
 
         String LIMIT_NUM_FAIL = "LIMIT_NUM_FAIL";
         String LIMIT_NUM_SUCCESS = "LIMIT_NUM_SUCCESS";

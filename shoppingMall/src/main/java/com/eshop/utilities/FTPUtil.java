@@ -60,35 +60,23 @@ public class FTPUtil {
     private boolean uploadFile(String remotePath,List<File> fileList) throws IOException {
         boolean uploaded = true;
         FileInputStream fis = null;
-        //连接FTP服务器
         if(connectServer(this.ip,this.port,this.user,this.pwd)){
-        	//连接FTP服务器成功
             try {
-            	//切换文件夹到Linux本地目录下的img
                 ftpClient.changeWorkingDirectory(remotePath);
-                //设置ftp缓冲区
                 ftpClient.setBufferSize(1024);
-                //设置Encoding
                 ftpClient.setControlEncoding("UTF-8");
-                //文件类型设置为二进制文件类型,可以防止乱码; 之前FTP配置为被动模式,并且对外开放了服务被动端口范围
                 ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-                //打开FTP本地的被动模式
                 ftpClient.enterLocalPassiveMode();
                 for(File fileItem : fileList){
                     fis = new FileInputStream(fileItem);
-                    //ftpClient调用storeFile来存储文件
                     ftpClient.storeFile(fileItem.getName(),fis);
                 }
-                
-
             } catch (IOException e) {
                 logger.error("上传文件异常",e);
                 uploaded = false;
                 e.printStackTrace();
             } finally {
-            	//释放流
                 fis.close();
-                //释放连接
                 ftpClient.disconnect();
             }
         } else {
@@ -105,11 +93,7 @@ public class FTPUtil {
      * @param pwd
      * @return
      */
-    /*
-     * FTP服务器连接
-     */
     private boolean connectServer(String ip,int port,String user,String pwd){
-
         boolean isSuccess = false;
         ftpClient = new FTPClient();
         try {
@@ -120,15 +104,6 @@ public class FTPUtil {
         }
         return isSuccess;
     }
-
-
-
-
-
-
-
-
-
 
 
     private String ip;

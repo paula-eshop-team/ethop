@@ -44,10 +44,6 @@ public class RedisShardedPoolUtil {
 	 * @param value
 	 * @return
 	 */
-	/*
-	 * @Param int exTime: 单位是秒
-	 * 用户首次登陆的时候需要调用并加上exTime, 后期用户再登陆则调用expire来设置用户的有效期即可
-	 */
 	public static String setEx(String key, int exTime, String value) {
 		ShardedJedis shardedJedis = null;
 		String result = null;
@@ -69,9 +65,6 @@ public class RedisShardedPoolUtil {
 	 * @param key
 	 * @param exTime
 	 * @return
-	 */
-	/*
-	 * 重新设置key的有效期,单位是秒 
 	 */
 	public static Long expire(String key, int exTime) {
 		ShardedJedis shardedJedis = null;
@@ -132,21 +125,4 @@ public class RedisShardedPoolUtil {
 		return result;
 	}
 
-	/**
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		ShardedJedis shardedJedis = RedisShardedPool.getJedis();
-		
-		RedisShardedPoolUtil.set("keyTest1", "vale1");
-		
-		String value = RedisShardedPoolUtil.get("keyTest1");
-		
-		RedisShardedPoolUtil.setEx("keyEx", 60*10, "valueeex");
-		
-		RedisShardedPoolUtil.expire("keyTest1", 60*20);
-		
-		System.out.println("end");
-	}
 }

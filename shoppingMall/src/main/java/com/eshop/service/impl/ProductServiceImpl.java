@@ -13,7 +13,6 @@ import com.eshop.utilities.DateTimeUtil;
 import com.eshop.utilities.PropertiesUtil;
 import com.eshop.vo.ProductDetailVo;
 import com.eshop.vo.ProductListVo;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -36,7 +35,6 @@ import java.util.List;
 public class ProductServiceImpl implements IProductService {
 
 	private static Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
-
     @Autowired
     private ProductMapper productMapper;
 
@@ -52,9 +50,7 @@ public class ProductServiceImpl implements IProductService {
 	 * 
 	 */
     public ServerResponse saveOrUpdateProduct(Product product){
-        if(product != null)
-        {
-        	//根据子图赋值主图
+        if(product != null) {
             if(StringUtils.isNotBlank(product.getSubImages())){
                 String[] subImageArray = product.getSubImages().split(",");
                 if(subImageArray.length > 0){
@@ -134,7 +130,6 @@ public class ProductServiceImpl implements IProductService {
         productDetailVo.setStatus(product.getStatus());
         productDetailVo.setStock(product.getStock());
 
-        //将配置与代码隔离,如果ftp服务器连接修改,只需要修改配置文件,不需要修改代码,以后会优化为热部署配置 
         productDetailVo.setImageHost(PropertiesUtil.getStringProperty("ftp.server.http.prefix","http://img.eshop.com/"));
 
         Category category = categoryMapper.selectCategoryByPrimaryKey(product.getCategoryId());
@@ -157,9 +152,6 @@ public class ProductServiceImpl implements IProductService {
 	 * 
 	 */
     public ServerResponse<PageInfo> getProductList(int pageNum,int pageSize){
-        //startPage--start
-        //填充自己的sql查询逻辑
-        //pageHelper-收尾
         PageHelper.startPage(pageNum,pageSize);
         List<Product> productList = productMapper.selectProductMapperList();
 
@@ -170,7 +162,6 @@ public class ProductServiceImpl implements IProductService {
         }
         PageInfo pageResult = new PageInfo(productList);
         
-        //重置list为productListVoList, 而并不是展示所有的productList的内容
         pageResult.setList(productListVoList);
         return ServerResponse.createBySuccess(pageResult);
     }
@@ -178,7 +169,6 @@ public class ProductServiceImpl implements IProductService {
     /**
      * @param product
 	 * @return
-	 * 
 	 */
     private ProductListVo assembleProductListVo(Product product){
         ProductListVo productListVo = new ProductListVo();
@@ -200,7 +190,6 @@ public class ProductServiceImpl implements IProductService {
      * @param pageNum
      * @param pageSize
 	 * @return
-	 * 
 	 */
     public ServerResponse<PageInfo> searchProduct(String productName,Integer productId,int pageNum,int pageSize){
         PageHelper.startPage(pageNum,pageSize);
@@ -221,7 +210,6 @@ public class ProductServiceImpl implements IProductService {
     /**
      * @param productId
 	 * @return
-	 * 
 	 */
     public ServerResponse<ProductDetailVo> getProductDetail(Integer productId){
         if(productId == null){
@@ -232,7 +220,6 @@ public class ProductServiceImpl implements IProductService {
             return ServerResponse.createByErrorMessage("产品已下架或者删除");
         }
         
-        //判断产品是否在线状态,如果不是在线,则不返回给前端
         if(product.getStatus() != Const.ProductStatusEnum.ON_SALE.getCode()){
             return ServerResponse.createByErrorMessage("产品已下架或者删除");
         }
@@ -247,20 +234,15 @@ public class ProductServiceImpl implements IProductService {
      * @param pageSize
      * @param orderBy
 	 * @return
-	 * 
 	 */
     public ServerResponse<PageInfo> getProductByKeywordCategory(String keyword,Integer categoryId,int pageNum,int pageSize,String orderBy){
-        //参数校验
     	if(StringUtils.isBlank(keyword) && categoryId == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
         List<Integer> categoryIdList = new ArrayList<Integer>();
-
-        //keyword和categoryId两个参数, categoryId为优先筛选
         if(categoryId != null){
             Category category = categoryMapper.selectCategoryByPrimaryKey(categoryId);
             if(category == null && StringUtils.isBlank(keyword)){
-                //没有该分类,并且还没有关键字,这个时候返回一个空的结果集,不报错
                 PageHelper.startPage(pageNum,pageSize);
                 List<ProductListVo> productListVoList = Lists.newArrayList();
                 PageInfo pageInfo = new PageInfo(productListVoList);
@@ -273,7 +255,6 @@ public class ProductServiceImpl implements IProductService {
             keyword = new StringBuilder().append("%").append(keyword).append("%").toString();
         }
         PageHelper.startPage(pageNum,pageSize);
-        //排序处理
         if(StringUtils.isNotBlank(orderBy)){
             if(Const.ProductListOrderBy.PRICE_ASC_DESC.contains(orderBy)){
                 String[] orderByArray = orderBy.split("_");
@@ -285,10 +266,7 @@ public class ProductServiceImpl implements IProductService {
         	return ServerResponse.createByErrorMessage("paula1");
         }
         
-        //keyword其实就是productName
-        //sql中用<foreach>来遍历categoryIdList
         List<Product> productList = productMapper.selectProductByNameAndCategoryIds(StringUtils.isBlank(keyword)?null:keyword,categoryIdList.size()==0?null:categoryIdList);
-
         List<ProductListVo> productListVoList = Lists.newArrayList();
         for(Product product : productList){
             ProductListVo productListVo = assembleProductListVo(product);

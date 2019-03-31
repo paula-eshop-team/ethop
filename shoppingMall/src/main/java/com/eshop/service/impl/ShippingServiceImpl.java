@@ -33,7 +33,6 @@ public class ShippingServiceImpl implements IShippingService {
      * @param userId
      * @param shipping
 	 * @return
-	 * 
 	 */
     public ServerResponse addShippingAddress(Integer userId, Shipping shipping){
         shipping.setUserId(userId);
@@ -50,7 +49,6 @@ public class ShippingServiceImpl implements IShippingService {
      * @param userId
      * @param shippingId
 	 * @return
-	 * 
 	 */
     public ServerResponse<String> deleteShippingAddress(Integer userId,Integer shippingId){
         int resultCount = shippingMapper.deleteShipingByShippingIdUserId(userId,shippingId);
@@ -64,7 +62,6 @@ public class ShippingServiceImpl implements IShippingService {
      * @param userId
      * @param shipping
 	 * @return
-	 * 
 	 */
     public ServerResponse updateShippingAddress(Integer userId, Shipping shipping){
         shipping.setUserId(userId);
@@ -79,7 +76,6 @@ public class ShippingServiceImpl implements IShippingService {
      * @param userId
      * @param shippingId
 	 * @return
-	 * 
 	 */
     public ServerResponse<Shipping> selectShippingAddress(Integer userId, Integer shippingId){
         Shipping shipping = shippingMapper.selectShippingByShippingIdUserId(userId,shippingId);
@@ -94,7 +90,6 @@ public class ShippingServiceImpl implements IShippingService {
      * @param pageNum
      * @param pageSize
 	 * @return
-	 * 
 	 */
     public ServerResponse<PageInfo> listShippingAddress(Integer userId,int pageNum,int pageSize){
         PageHelper.startPage(pageNum,pageSize);
@@ -107,11 +102,4 @@ public class ShippingServiceImpl implements IShippingService {
 	public List<Shipping> findAllShippingListInfo() {
 		return shippingMapper.findAllShippingListInfo();
 	}
-
-
-
-
-
-
-
 }

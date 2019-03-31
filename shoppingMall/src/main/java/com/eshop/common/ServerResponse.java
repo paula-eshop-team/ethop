@@ -12,14 +12,10 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
  * @param <T>
  */
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)//不要null.没有null
-//保证序列化json的时候,如果是null的对象,key也会消失
 public class ServerResponse<T> implements Serializable {
 	private int status;
 	private String msg;
-	
-	//在返回的时候可以指定泛型指定的内容,也可以强制指定泛型内容
 	private T data;
-	
 	
 	/**
 	 * @param status
@@ -60,8 +56,7 @@ public class ServerResponse<T> implements Serializable {
 	/**
 	 * @return
 	 */
-	//不让isSuccess加载到json里
-	@JsonIgnore//使之不在json序列化结果当中
+	@JsonIgnore
 	public boolean isSuccess() {
 		return this.status == ResponseCode.SUCCESS.getCode();
 	}

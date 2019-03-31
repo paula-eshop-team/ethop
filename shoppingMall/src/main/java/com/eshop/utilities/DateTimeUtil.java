@@ -18,10 +18,6 @@ public class DateTimeUtil {
 
 	private static Logger logger = LoggerFactory.getLogger(DateTimeUtil.class);
 	
-    //joda-time
-
-    //str->Date
-    //Date->str
     public static final String STANDARD_FORMAT = "yyyy-MM-dd HH:mm:ss";
     
     /**
@@ -81,8 +77,6 @@ public class DateTimeUtil {
     public static void main(String[] args) {
         System.out.println(DateTimeUtil.dateToStr(new Date(),"yyyy-MM-dd HH:mm:ss"));
         System.out.println(DateTimeUtil.strToDate("2010-01-01 11:11:11","yyyy-MM-dd HH:mm:ss"));
-
     }
-
 
 }

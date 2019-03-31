@@ -23,7 +23,6 @@ public class MD5Util {
 	 * @param b
 	 * @return
 	 */
-	//加密算法
     private static String byteArrayToHexString(byte b[]) {
         StringBuffer resultSb = new StringBuffer();
         for (int i = 0; i < b.length; i++)
@@ -73,7 +72,6 @@ public class MD5Util {
      * @param origin
      * @return
      */
-    //使用utf-8作为字符集进行MD5加密
     public static String MD5EncodeUtf8(String origin) {
         origin = origin + PropertiesUtil.getStringProperty("password.salt", "");
         return MD5Encode(origin, "utf-8");

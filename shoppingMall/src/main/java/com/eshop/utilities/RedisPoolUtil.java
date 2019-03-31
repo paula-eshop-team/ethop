@@ -44,10 +44,6 @@ public class RedisPoolUtil {
 	 * @param value
 	 * @return
 	 */
-	/*
-	 * @Param int exTime: 单位是秒
-	 * 用户首次登陆的时候需要调用并加上exTime, 后期用户再登陆则调用expire来设置用户的有效期即可
-	 */
 	public static String setEx(String key, int exTime, String value) {
 		Jedis jedis = null;
 		String result = null;
@@ -70,16 +66,12 @@ public class RedisPoolUtil {
 	 * @param exTime
 	 * @return
 	 */
-	/*
-	 * 重新设置key的有效期,单位是秒 
-	 */
 	public static Long expire(String key, int exTime) {
 		Jedis jedis = null;
 		Long result = null;
 		
 		try {
 			jedis = RedisPool.getJedis();
-			//如果超时则返回1, 没有超时则返回0
 			result = jedis.expire(key, exTime);
 		} catch (Exception e) {
 			logger.error("expire key:{} exTime:{} error", key, exTime, e);
@@ -132,21 +124,4 @@ public class RedisPoolUtil {
 		return result;
 	}
 
-	/**
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Jedis jedis = RedisPool.getJedis();
-		
-		RedisPoolUtil.set("keyTest1", "vale1");
-		
-		String value = RedisPoolUtil.get("keyTest1");
-		
-		RedisPoolUtil.setEx("keyEx", 60*10, "valueeex");
-		
-		RedisPoolUtil.expire("keyTest1", 60*20);
-		
-		System.out.println("end");
-	}
 }
